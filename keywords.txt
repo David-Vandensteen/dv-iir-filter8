@@ -1,0 +1,8 @@
+DV_IirFilter8	KEYWORD1
+
+update	KEYWORD2
+setSmoothing KEYWORD2
+getSmoothing KEYWORD2
+getValue KEYWORD2
+getCount KEYWORD2
+reset KEYWORD2
