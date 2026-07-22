@@ -39,10 +39,3 @@ uint8_t DV_IirFilter8::update(uint8_t input) {
   _count++;
   return _value >> 8;
 }
-
-static uint8_t DV_IirFilter8::lerp(uint8_t a, uint8_t b, uint8_t smoothing) {
-  int16_t delta = (int16_t)b - (int16_t)a;
-  uint16_t factor = 256 - smoothing;
-
-  return a + ((delta * factor) >> 8);
-}

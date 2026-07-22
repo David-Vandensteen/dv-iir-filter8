@@ -1,14 +1,15 @@
 # dv_iir_filter8
 
-A lightweight and efficient Arduino library for implementing an 8-bit IIR filter using linear interpolation.
+A lightweight and efficient Arduino library for implementing an 8-bit IIR filter API with fixed-point internal processing.
 
 ## Description
 
-**dv_iir_filter8** is an IIR (Infinite Impulse Response) filter optimized for microcontrollers. It uses the linear interpolation (Lerp) algorithm to smooth sensor data and analog input signals with minimal computational cost.
+**dv_iir_filter8** is an IIR (Infinite Impulse Response) filter optimized for microcontrollers. It accepts and returns 8-bit values (`0..255`) while using fixed-point internal arithmetic for smoother interpolation and better precision.
 
 ## Features
 
-- 8-bit IIR filter (values 0-255)
+- 8-bit API (input/output values 0-255)
+- Fixed-point internal computation (higher precision than plain 8-bit math)
 - Fast linear interpolation algorithm
 - Configurable smoothing parameter
 - Update count tracking
@@ -36,7 +37,7 @@ A lightweight and efficient Arduino library for implementing an 8-bit IIR filter
 
 #define ADC_RESOLUTION 10 // bits
 
-DV_IirFilter8 filter();
+DV_IirFilter8 filter;
 
 void setup() {
   Serial.begin(115200);
@@ -45,7 +46,8 @@ void setup() {
 
 void loop() {
   uint16_t rawInput = analogRead(A0);
-  uint8_t inputPercent = (rawInput * 100) >> ADC_RESOLUTION; // Approximate 0-100% conversion with rounding
+  // 16-bit-only approximation for a 10-bit ADC (1023 ~= 1024): raw * 100 / 1024
+  uint8_t inputPercent = ((rawInput * 25) + 255) >> 8;
   uint8_t filteredPercent = filter.update(inputPercent);
 
   Serial.print("Input: "); Serial.print(inputPercent); Serial.print("%");
@@ -79,7 +81,11 @@ The smoothing parameter controls how much the filtered output "lags behind" the 
 
 ### How it works
 
-The filter uses the formula: `output = output + ((input - output) * smoothing) >> 8`
+At the API level, the filter manipulates 8-bit values (`0..255`).
+Internally, it keeps a fixed-point accumulator and computes updates with higher precision before converting back to 8-bit output.
+
+Conceptually, the update behaves like:
+`output = output + ((input - output) * (256 - smoothing)) / 256`
 
 - **Value 0:** No smoothing - the output instantly follows the input
 - **Value 32:** Moderate smoothing - good balance for most sensor applications
