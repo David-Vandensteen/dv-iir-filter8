@@ -15,7 +15,6 @@ void loop() {
   uint8_t inputPercent = (uint8_t)(((uint32_t)rawInput * 100U) / ADC_RESOLUTION);
   uint8_t filteredPercent = filter.update(inputPercent);
 
-
   Serial.print("Input:"); Serial.print(inputPercent);
   Serial.println();
   Serial.print("Filtered:"); Serial.print(filteredPercent);
