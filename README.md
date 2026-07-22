@@ -118,7 +118,9 @@ You can change the smoothing value at runtime using `setSmoothing()`.
 
 ## Example
 
-See `examples/01-basic/01-basic.ino`.
+`examples/01-basic/01-basic.ino`
+`examples/02-mid-smoothing/02-mid-smoothing.ino`
+`examples/03-strong-smoothing/03-strong-smoothing.ino`
 
 ## License
 
