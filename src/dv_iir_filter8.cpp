@@ -29,15 +29,13 @@ unsigned long DV_IirFilter8::getCount() {
 
 uint8_t DV_IirFilter8::update(uint8_t input) {
   if (!_initialized) {
-    _value = input;
+    _value = (uint16_t)input << 8;
     _initialized = true;
   } else {
-    _value = lerp(_value, input, _smoothing);
+    int32_t target = (uint16_t)input << 8;
+    int32_t delta = target - _value;
+    _value += (delta * (256 - _smoothing)) >> 8;
   }
   _count++;
-  return _value;
-}
-
-static uint8_t DV_IirFilter8::lerp(uint8_t a, uint8_t b, uint8_t smoothing) {
-    return a + (((int16_t)(b - a) * smoothing) >> 8);
+  return _value >> 8;
 }
