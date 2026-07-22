@@ -3,7 +3,7 @@
 
 #define ADC_RESOLUTION 10 // bits
 
-DV_IirFilter8 filter();
+DV_IirFilter8 filter = DV_IirFilter8();
 
 void setup() {
   Serial.begin(115200);
@@ -15,7 +15,7 @@ void loop() {
   uint8_t inputPercent = (rawInput * 100) >> ADC_RESOLUTION; // Approximate 0-100% conversion with rounding
   uint8_t filteredPercent = filter.update(inputPercent);
 
-  Serial.print("Input: "); Serial.print(inputPercent); Serial.print("%");
-  Serial.print("\tFiltered: "); Serial.print(filteredPercent); Serial.println("%");
+  Serial.print("Input:"); Serial.print(inputPercent);
+  Serial.print("\tFiltered:"); Serial.print(filteredPercent);
   delay(100);
 }
