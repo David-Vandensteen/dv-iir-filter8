@@ -15,7 +15,7 @@ public:
 
 private:
   uint8_t _smoothing = 32;
-  uint16_t _value;
+  uint16_t _value = 0;
   bool _initialized = false;
   unsigned long _count = 0;
 };
