@@ -116,11 +116,18 @@ DV_IirFilter8 smooth(200);
 
 You can change the smoothing value at runtime using `setSmoothing()`.
 
+### Visual Examples
+#### mid-smoothing
+![mid-smoothing](img/mid.png)
+
+#### strong-smoothing
+![strong-smoothing](img/strong.png)
+
 ## Example
 
-`examples/01-basic/01-basic.ino`
-`examples/02-mid-smoothing/02-mid-smoothing.ino`
-`examples/03-strong-smoothing/03-strong-smoothing.ino`
+[examples/01-basic/01-basic.ino](examples/01-basic/01-basic.ino).  
+[examples/02-mid-smoothing/02-mid-smoothing.ino](examples/02-mid-smoothing/02-mid-smoothing.ino).  
+[examples/03-strong-smoothing/03-strong-smoothing.ino](examples/03-strong-smoothing/03-strong-smoothing.ino).  
 
 ## License
 
