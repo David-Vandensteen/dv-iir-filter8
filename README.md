@@ -1,1 +1,112 @@
-# dv-iir-filter
+# dv_iir_filter8
+
+A lightweight and efficient Arduino library for implementing an 8-bit IIR filter using linear interpolation.
+
+## Description
+
+**dv_iir_filter8** is an IIR (Infinite Impulse Response) filter optimized for microcontrollers. It uses the linear interpolation (Lerp) algorithm to smooth sensor data and analog input signals with minimal computational cost.
+
+## Features
+
+- 8-bit IIR filter (values 0-255)
+- Fast linear interpolation algorithm
+- Configurable smoothing parameter
+- Update count tracking
+
+## Installation
+
+### Via Arduino Library Manager (recommended)
+
+1. Open the Arduino IDE
+2. Go to Tools > Manage Libraries...
+3. Search for "dv_iir_filter8"
+4. Click Install
+
+### Manual
+
+1. Download this repository as a ZIP file.
+2. In the Arduino IDE, go to Sketch > Include Library > Add .ZIP Library...
+3. Select the downloaded ZIP file to install the library.
+
+## Usage
+
+```cpp
+#include <dv_iir_filter8.h>
+
+DV_IirFilter8 filter(32);  // Initialize filter with smoothing of 32
+
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  uint8_t input = analogRead(A0) >> 2;  // Convert 0-1023 to 0-255
+  uint8_t filtered = filter.update(input);  // Apply filter
+  Serial.println(filtered);
+  delay(100);
+}
+```
+
+## API
+
+### Constructors
+
+- `DV_IirFilter8()` : Creates a filter with default smoothing (32)
+- `DV_IirFilter8(uint8_t smoothing)` : Creates a filter with custom smoothing
+
+### Methods
+
+- `uint8_t update(uint8_t input)` : Updates the filter with a new input value
+- `void setSmoothing(uint8_t smoothing)` : Sets the smoothing parameter
+- `uint8_t getSmoothing()` : Gets the current smoothing parameter
+- `uint8_t getValue()` : Gets the current filtered value
+- `unsigned long getCount()` : Gets the number of updates
+- `void reset()` : Resets the filter
+
+## Smoothing Parameter
+
+The smoothing parameter controls how much the filtered output "lags behind" the input, effectively filtering out noise and rapid changes.
+
+- **Default value:** 32
+- **Range:** 0-255
+
+### How it works
+
+The filter uses the formula: `output = output + ((input - output) * smoothing) >> 8`
+
+- **Value 0:** No smoothing - the output instantly follows the input
+- **Value 32:** Moderate smoothing - good balance for most sensor applications
+- **Value 128:** Strong smoothing - output changes slowly, noise is heavily reduced
+- **Value 255:** Maximum smoothing - output changes very gradually, the filter acts like a very slow "follower"
+
+### Choosing the right value
+
+| Smoothing Value | Use Case |
+|---|---|
+| 0-15 | Highly responsive, minimal filtering (fast sensors) |
+| 16-64 | Good for typical sensor noise filtering |
+| 65-150 | Strong smoothing, slower response time |
+| 150-255 | Very slow response, maximum noise reduction |
+
+### Example
+
+```cpp
+// Responsive filter for button debouncing
+DV_IirFilter8 responsive(10);
+
+// Balanced filter for general sensor use
+DV_IirFilter8 balanced(32);
+
+// Heavy smoothing for very noisy sensors
+DV_IirFilter8 smooth(200);
+```
+
+You can change the smoothing value at runtime using `setSmoothing()`.
+
+## Example
+
+See `examples/01-basic/01-basic.ino`.
+
+## License
+
+MIT
