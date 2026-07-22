@@ -35,7 +35,7 @@ A lightweight and efficient Arduino library for implementing an 8-bit IIR filter
 #include <Arduino.h>
 #include <dv_iir_filter8.h>
 
-#define ADC_RESOLUTION 10 // bits
+#define ADC_RESOLUTION 1023
 
 DV_IirFilter8 filter;
 
@@ -46,12 +46,13 @@ void setup() {
 
 void loop() {
   uint16_t rawInput = analogRead(A0);
-  // 16-bit-only approximation for a 10-bit ADC (1023 ~= 1024): raw * 100 / 1024
-  uint8_t inputPercent = ((rawInput * 25) + 255) >> 8;
+  uint8_t inputPercent = (uint8_t)(((uint32_t)rawInput * 100U) / ADC_RESOLUTION);
   uint8_t filteredPercent = filter.update(inputPercent);
 
-  Serial.print("Input: "); Serial.print(inputPercent); Serial.print("%");
-  Serial.print("\tFiltered: "); Serial.print(filteredPercent); Serial.println("%");
+  Serial.print("Input:"); Serial.print(inputPercent);
+  Serial.println();
+  Serial.print("Filtered:"); Serial.print(filteredPercent);
+  Serial.println();
   delay(100);
 }
 ```
