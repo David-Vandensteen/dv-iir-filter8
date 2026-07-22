@@ -16,6 +16,8 @@ void loop() {
   uint8_t filteredPercent = filter.update(inputPercent);
 
   Serial.print("Input:"); Serial.print(inputPercent);
-  Serial.print("\tFiltered:"); Serial.print(filteredPercent);
+  Serial.println();
+  Serial.print("Filtered:"); Serial.print(filteredPercent);
+  Serial.println();
   delay(100);
 }
