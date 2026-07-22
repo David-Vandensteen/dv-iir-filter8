@@ -15,7 +15,7 @@ public:
 
 private:
   uint8_t _smoothing = 32;
-  uint8_t _value;
+  uint16_t _value;
   bool _initialized = false;
   unsigned long _count = 0;
   static uint8_t lerp(uint8_t a, uint8_t b, uint8_t smoothing);
