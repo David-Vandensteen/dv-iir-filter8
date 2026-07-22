@@ -15,6 +15,8 @@ void loop() {
 
   Serial.print("Input:");
   Serial.print(inputPercent);
+  Serial.print(",Getter:");
+  Serial.print(filter.getValue());
   Serial.print(",Filtered:");
   Serial.println(filteredPercent);
 

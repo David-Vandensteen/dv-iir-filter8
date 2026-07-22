@@ -15,7 +15,7 @@ uint8_t DV_IirFilter8::getSmoothing() {
 }
 
 uint8_t DV_IirFilter8::getValue() {
-  return _value;
+  return _value >> 8;
 }
 
 void DV_IirFilter8::reset() {

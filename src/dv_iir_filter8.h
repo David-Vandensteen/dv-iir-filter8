@@ -19,4 +19,5 @@ private:
   bool _initialized = false;
   unsigned long _count = 0;
 };
+
 #endif
