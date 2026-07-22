@@ -21,6 +21,7 @@ uint8_t DV_IirFilter8::getValue() {
 void DV_IirFilter8::reset() {
   _initialized = false;
   _count = 0;
+  _value = 0;
 }
 
 unsigned long DV_IirFilter8::getCount() {
